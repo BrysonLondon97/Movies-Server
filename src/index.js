@@ -1,6 +1,15 @@
+require('./models/Profiles');
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const authRoutes = require('./routes/authRoutes');
+const requireAuth = require('./middlewares/requireAuth');
+
 const app = express();
+
+//make sure to parse the data that is being passed into the different routes with JSON data
+app.use(bodyParser.json());
+app.use(authRoutes);
 
 //create a mongoDB URI variable
 const mongoURI = 'mongodb+srv://admin:passwordpassword@cluster0.epw0m.mongodb.net/<dbname>?retryWrites=true&w=majority'
@@ -21,8 +30,9 @@ mongoose.connection.on('error', (err) => {
 
 
 //anytime a HTTP .get request to this application, run this code
-app.get('/', (req, res) => {
-    res.send('Hi there');
+//can only access this route with a jsonwebtoken
+app.get('/', requireAuth, (req, res) => {
+    res.send(`Your email: ${req.user.email}`);
 });
 
 //run the app on our local 3000 port on my machine
