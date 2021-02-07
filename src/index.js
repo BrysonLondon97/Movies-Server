@@ -1,8 +1,10 @@
 require('./models/Profiles');
+require('./models/MovieDetails');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
+const detailsRoutes = require('./routes/detailsRoutes');
 const requireAuth = require('./middlewares/requireAuth');
 
 const app = express();
@@ -10,6 +12,7 @@ const app = express();
 //make sure to parse the data that is being passed into the different routes with JSON data
 app.use(bodyParser.json());
 app.use(authRoutes);
+app.use(detailsRoutes);
 
 //create a mongoDB URI variable
 const mongoURI = 'mongodb+srv://admin:passwordpassword@cluster0.epw0m.mongodb.net/<dbname>?retryWrites=true&w=majority'

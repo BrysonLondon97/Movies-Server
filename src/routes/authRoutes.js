@@ -18,6 +18,7 @@ router.post('/signup', async (req, res) => {
         //generate a JSONWebToken to use to authenticate the user, encrypting the user's ID
         const token = jwt.sign({userId: user._id}, 'Secret_Key')
 
+        console.log(user._id);
         res.send({token});
     } catch ( e ) {
         return res.status(422).send(e.message);
